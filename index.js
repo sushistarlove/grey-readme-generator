@@ -1,4 +1,5 @@
 // TODO: Include packages needed for this application
+const generateREADME = require('./generateMarkdown')
 const inquirer = require('inquirer');
 const fs = require('fs');
 const util = require('util');
@@ -9,7 +10,7 @@ const promptUser = () => {
     return inquirer.prompt([
         {
             type: 'input',
-            name: 'desciption',
+            name: 'description',
             message: 'Give a brief description of your project.',
         },
         {
@@ -34,58 +35,85 @@ const promptUser = () => {
             message: 'If any acknowledgments, please list them here.',
         },
         {
-            type: 'input',
-            name: 'linkedin',
-            message: 'Enter your LinkedIn URL.',
-        },
-
-        {
-            type: 'input',
+            type: 'list',
+            choices: ["MIT", "IBM", "ISC"],
             name: 'license',
             message: 'Type what license this product is under.',
+        },
+        {
+            type: 'input',
+            name: 'github',
+            message: 'Enter a link to your Github profile.',
+        },
+        {
+            type: 'input',
+            name: 'email',
+            message: 'Enter your Email address.',
         },
     ]);
 }
 
 // TODO: Create a function to write README file
-function generateREADME(answers) {
-    `# Project Title
+// function generateREADME(answers) {
 
-    Simple overview of use/purpose.
-    
-    ## Description
-    
-    ${answers.description}
-    
-    ## Getting Started
-    
-    ### Dependencies
-    
-    ${answers.dependencies}
-    
-    ### Executing program
-    
-    ${answers.execution}
-    
-    ## Authors
-    
-    ${answers.authors}
-    
-    
-    ## Acknowledgments
-    
-    ${answers.acknowledgments}
+//     return `# Project Title
 
-    ## License
+// Simple overview of use/purpose.
+    
+// # Table Of Contents
 
-    This project is licensed under the ${answers.license} License - see the LICENSE.md file for details
-    `
-}
+// [Description](#Description)
+// [Getting Started](#Dependencies)
+// [Usage](#Usage)
+// [Authors](#Authors)
+// [Acknowledgments](#Acknowledgments)
+// [Licensing](#License)
+// [Questions](#Questions)
+
+
+// ## Description
+    
+// ${answers.description}
+    
+// ## Getting Started
+    
+// ### Dependencies
+    
+// ${answers.dependencies}
+    
+// ### Usage
+    
+// ${answers.execution}
+    
+// ## Authors
+    
+// ${answers.authors}
+    
+    
+// ## Acknowledgments
+    
+// ${answers.acknowledgments}
+
+// ## License
+
+// This project is licensed under the ${answers.license} License - see the LICENSE.md file for details
+
+
+
+// ## Questions
+    
+// How To contact me? 
+
+// Link to my Github: ${answers.github}
+
+// Email Me!: ${answers.email}
+// `
+// }
 
 // TODO: Create a function to initialize app
 const init = () => {
     promptUser()
-        .then((answers) => writeFileAsync('generateMarkdown.js', generateREADME(answers)))
+        .then((answers) => generateREADME(answers)).then((data) => writeFileAsync("hello.md", data))
         .then(() => console.log('Successfully Generated README.md'))
         .catch((err) => console.error(err));
 };
